@@ -1,4 +1,4 @@
-import { useState, useEffect, useId } from "react";
+import { useState, useEffect, useId, useRef } from "react";
 import "./App.css";
 
 /* ============================================================
@@ -183,12 +183,61 @@ export default function App() {
   const [filter, setFilter] = useState("Sve");
   const [scrolled, setScrolled] = useState(false);
   const [formStatus, setFormStatus] = useState("idle"); // idle | sending | success | error
+  const galleryRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Auto-slajder galerije — samo na telefonu (≤600px).
+  // Menja sliku svake 3s; pauzira dok korisnik prevlači prstom.
+  useEffect(() => {
+    const el = galleryRef.current;
+    if (!el) return;
+    const mq = window.matchMedia("(max-width: 600px)");
+    let timer = null;
+    let paused = false;
+
+    const slideNext = () => {
+      if (paused) return;
+      const w = el.clientWidth;
+      const maxScroll = el.scrollWidth - w;
+      const next = el.scrollLeft + w > maxScroll + 2 ? 0 : el.scrollLeft + w;
+      el.scrollTo({ left: next, behavior: "smooth" });
+    };
+    const start = () => {
+      stop();
+      if (mq.matches) timer = setInterval(slideNext, 3000);
+    };
+    const stop = () => {
+      if (timer) clearInterval(timer);
+      timer = null;
+    };
+    const onDown = () => {
+      paused = true;
+      stop();
+    };
+    const onUp = () => {
+      paused = false;
+      start();
+    };
+
+    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointerup", onUp);
+    el.addEventListener("pointercancel", onUp);
+    mq.addEventListener("change", start);
+    start();
+
+    return () => {
+      stop();
+      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointerup", onUp);
+      el.removeEventListener("pointercancel", onUp);
+      mq.removeEventListener("change", start);
+    };
+  }, [filter]);
 
   const visible =
     filter === "Sve" ? GALLERY : GALLERY.filter((g) => g.cat === filter);
@@ -345,7 +394,7 @@ export default function App() {
             ))}
           </div>
 
-          <div className="masonry">
+          <div className="masonry" ref={galleryRef}>
             {visible.map((g) => (
               <figure key={g.id} className="tile">
                 <img src={img(g.seed)} alt={g.cat} loading="lazy" />

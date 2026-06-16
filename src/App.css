@@ -674,13 +674,75 @@ img {
   .quotes {
     grid-template-columns: 1fr;
   }
-  .masonry {
-    columns: 1;
-  }
   .stats__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stat {
+    padding: 24px 8px;
+  }
+  .stat__num {
+    font-size: 1.7rem;
+  }
+  .stat__label {
+    font-size: 0.68rem;
+    letter-spacing: 0.5px;
   }
   .section {
     padding: 60px 0;
+  }
+}
+
+/* ---------- Telefon: hero slike + galerija kao slajder ---------- */
+@media (max-width: 600px) {
+  /* HERO: uredan 2×2 raspored slika, bez preklapanja sa statistikom */
+  .hero {
+    padding-bottom: 44px;
+  }
+  .hero__gallery {
+    max-width: 360px;
+    margin: 4px auto 0;
+    gap: 12px;
+  }
+  .hero__col {
+    gap: 12px;
+  }
+  .hero__col--down {
+    margin-top: 0;
+  }
+  .hero__col img,
+  .hero__col img:nth-child(2) {
+    aspect-ratio: 1 / 1;
+  }
+
+  /* GALERIJA: vodoravni slajder — jedna slika, swipe + auto svake 3s */
+  .masonry {
+    columns: auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .masonry::-webkit-scrollbar {
+    display: none;
+  }
+  .tile {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-bottom: 0;
+    scroll-snap-align: center;
+    box-shadow: none;
+  }
+  .tile img {
+    aspect-ratio: 4 / 5;
+    height: auto;
+  }
+  /* na telefonu nema hovera — naziv kategorije uvek vidljiv */
+  .tile figcaption {
+    opacity: 1;
+    transform: none;
   }
 }
