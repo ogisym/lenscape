@@ -13,7 +13,7 @@ const CONFIG = {
     "Profesionalna fotografija za ljude i mašine — svaki kadar ispričan kako treba.",
   city: "Beograd, Srbija", // promeni svoj grad
   phone: "+381 64 9311765", // upiši svoj broj
-  email: "kontakt@lenscape.rs", // upiši svoj mejl
+  email: "kontakt@lenscapers.rs", // upiši svoj mejl
   // Web3Forms ključ — zameni ovo svojim "access key" sa https://web3forms.com
   // (upišeš svoj mejl, stigne ti ključ; mejlovi sa forme stižu na taj mejl):
   web3formsKey: "PASTE-YOUR-ACCESS-KEY-HERE",
