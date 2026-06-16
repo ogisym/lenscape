@@ -1,0 +1,13 @@
+<svg viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(190,190)" stroke="#b4763e">
+    <circle cx="0" cy="0" r="175" stroke-width="14" />
+    <circle cx="0" cy="0" r="120" stroke-width="9" />
+    <clipPath id="g">
+      <circle cx="0" cy="0" r="116" />
+    </clipPath>
+    <g clip-path="url(#g)" fill="#b4763e" stroke="none">
+      <path d="M -90,-95 C -40,-130 60,-120 95,-70 C 50,-95 -30,-90 -70,-50 C -95,-25 -100,-60 -90,-95 Z" />
+      <path d="M 30,40 C 55,25 85,35 95,60 C 70,50 45,55 30,75 C 18,60 18,52 30,40 Z" />
+    </g>
+  </g>
+</svg>
