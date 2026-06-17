@@ -16,7 +16,7 @@ const CONFIG = {
   email: "kontakt@lenscapers.rs", // upiši svoj mejl
   // Web3Forms ključ — zameni ovo svojim "access key" sa https://web3forms.com
   // (upišeš svoj mejl, stigne ti ključ; mejlovi sa forme stižu na taj mejl):
-  web3formsKey: "PASTE-YOUR-ACCESS-KEY-HERE",
+  web3formsKey: "74752800-e347-4547-b2ec-8ded9aeb1ae5",
   // Linkovi ka mrežama — zameni '#' svojim profilima kad ih napraviš:
   social: {
     instagram: "#",
