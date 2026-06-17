@@ -694,17 +694,22 @@ img {
 
 /* ---------- Telefon: hero slike + galerija kao slajder ---------- */
 @media (max-width: 600px) {
-  /* HERO: uredan 2×2 raspored slika, bez preklapanja sa statistikom */
+  /* HERO: čist 2×2 raspored slika, bez preklapanja sa statistikom.
+     'display:contents' spljošti dve unutrašnje kolone u JEDNU mrežu —
+     pouzdano na iOS Safari (izbegava bug sa aspect-ratio u ugnježdenom gridu,
+     koji je pravio da se statistika "popne" preko slika). */
   .hero {
-    padding-bottom: 44px;
+    padding-bottom: 48px;
   }
   .hero__gallery {
-    max-width: 360px;
-    margin: 4px auto 0;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-width: 340px;
+    margin: 8px auto 0;
   }
   .hero__col {
-    gap: 12px;
+    display: contents;
   }
   .hero__col--down {
     margin-top: 0;
@@ -712,6 +717,9 @@ img {
   .hero__col img,
   .hero__col img:nth-child(2) {
     aspect-ratio: 1 / 1;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
   }
 
   /* GALERIJA: vodoravni slajder — jedna slika, swipe + auto svake 3s */
