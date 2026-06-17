@@ -6,7 +6,7 @@ import "./App.css";
    Promeni broj telefona, mejl, grad i linkove ka mrežama.
    ============================================================ */
 const CONFIG = {
-  brand: "Lenscape",
+  brand: "Lenscapers",
   tagline: "Ti živi u trenutku, ja sam tu da ga učinim večnim.",
   motto: "Uhvaćeni u pokretu. Sačuvani od zaborava.",
   intro:
