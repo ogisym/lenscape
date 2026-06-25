@@ -2,17 +2,17 @@
    Lenscape — svetla, elegantna, topla tema
    ============================================================ */
 :root {
-  --bg: #f3efe8; /* topli ivory, ne presvetao */
-  --bg-alt: #ece6dc; /* malo tamniji za naizmenične sekcije */
-  --surface: #fbf9f5; /* kartice */
-  --ink: #211e1a; /* glavni tekst */
-  --ink-soft: #6c6258; /* prigušeni tekst */
-  --line: #ddd5c8; /* granice */
-  --accent: #b4763e; /* topli bakar/amber */
-  --accent-deep: #8a5526;
-  --dark: #221f1b; /* footer / tamni blokovi */
+  --bg: #100d0b; /* duboka topla crna */
+  --bg-alt: #181410; /* malo svetlija za naizmenične sekcije */
+  --surface: #1f1a15; /* kartice */
+  --ink: #f1e9dd; /* glavni tekst (svetao) */
+  --ink-soft: #b0a392; /* prigušeni tekst */
+  --line: rgba(214, 196, 168, 0.16); /* suptilne granice na tamnom */
+  --accent: #c9a063; /* premium zlato/šampanjac */
+  --accent-deep: #e0bd84; /* svetlije zlato za hover na tamnom */
+  --dark: #0a0807; /* footer / najtamniji blok */
   --radius: 14px;
-  --shadow: 0 18px 40px -22px rgba(40, 30, 16, 0.35);
+  --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.8);
   --maxw: 1180px;
 }
 
@@ -70,6 +70,20 @@ img {
   padding: 0 24px;
 }
 
+/* Vidljivo Google-u i čitačima ekrana, ali ne i oku (sakriven H1). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 3px;
@@ -86,18 +100,19 @@ img {
   justify-content: center;
   gap: 8px;
   background: var(--accent);
-  color: #fff;
+  color: #14100b;
   padding: 13px 26px;
   border-radius: 999px;
   font-weight: 600;
   font-size: 0.95rem;
+  letter-spacing: 0.2px;
   border: none;
   cursor: pointer;
   transition:
     transform 0.18s ease,
     background 0.18s ease,
     box-shadow 0.18s ease;
-  box-shadow: 0 10px 24px -12px rgba(140, 85, 38, 0.7);
+  box-shadow: 0 12px 30px -14px rgba(201, 160, 99, 0.6);
 }
 .btn:hover {
   background: var(--accent-deep);
@@ -155,15 +170,18 @@ img {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(243, 239, 232, 0.7);
-  backdrop-filter: blur(10px);
+  background: rgba(16, 13, 11, 0.45);
+  backdrop-filter: blur(12px);
   transition:
     box-shadow 0.25s ease,
-    background 0.25s ease;
+    background 0.25s ease,
+    border-color 0.25s ease;
+  border-bottom: 1px solid transparent;
 }
 .nav--scrolled {
-  box-shadow: 0 6px 24px -16px rgba(0, 0, 0, 0.4);
-  background: rgba(243, 239, 232, 0.92);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+  background: rgba(13, 11, 9, 0.9);
+  border-bottom-color: var(--line);
 }
 .nav__inner {
   display: flex;
@@ -225,60 +243,108 @@ img {
   border-radius: 2px;
 }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero (premium — slika kao pozadina, slajdšou) ---------- */
 .hero {
-  padding: 56px 0 70px;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
 }
-.hero__inner {
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.hero__bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 1.4s ease-in-out;
+}
+.hero__bg-img.is-active {
+  opacity: 1;
+}
+/* Tamna preliva preko slike — čitljivost teksta + premium ton.
+   Tamnije u gornje-levom i donje-desnom uglu (gde je tekst). */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 6, 5, 0.82) 0%,
+      rgba(8, 6, 5, 0.32) 38%,
+      rgba(8, 6, 5, 0.22) 60%,
+      rgba(8, 6, 5, 0.85) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(8, 6, 5, 0.5) 0%,
+      rgba(8, 6, 5, 0) 28%,
+      rgba(8, 6, 5, 0) 62%,
+      rgba(8, 6, 5, 0.55) 100%
+    );
+}
+.hero__grid {
+  position: relative;
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: 50px;
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 24px;
+  min-height: 100vh;
+  padding-top: 110px;
+  padding-bottom: 56px;
+}
+.hero__corner {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 30em;
+}
+.hero__corner--tl {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  justify-self: start;
+  align-items: flex-start;
+}
+.hero__corner--br {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: end;
+  justify-self: end;
+  align-items: flex-end;
+  text-align: right;
+}
+.hero__tagline {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
+  line-height: 1.16;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 2px 34px rgba(0, 0, 0, 0.6);
 }
 .hero__motto {
   font-family: "Playfair Display", Georgia, serif;
   font-style: italic;
-  font-size: 1.3rem;
+  font-size: clamp(1.3rem, 2.4vw, 2rem);
+  line-height: 1.32;
   color: var(--accent-deep);
-  margin: 16px 0 0;
-  max-width: 24em;
+  text-shadow: 0 2px 26px rgba(0, 0, 0, 0.75);
 }
-.hero__lead {
-  color: var(--ink-soft);
-  font-size: 1.08rem;
-  max-width: 30em;
-  margin: 14px 0 28px;
+.hero .socials a {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
 }
-.hero h1 {
-  margin-top: 4px;
-}
-.hero__actions {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 26px;
-}
-
-.hero__gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-.hero__col {
-  display: grid;
-  gap: 16px;
-}
-.hero__col--down {
-  margin-top: 34px;
-}
-.hero__col img {
-  width: 100%;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  aspect-ratio: 4 / 5;
-}
-.hero__col img:nth-child(2) {
-  aspect-ratio: 4 / 3;
+.hero .socials a:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #14100b;
 }
 
 /* ---------- Stats ---------- */
@@ -391,9 +457,9 @@ img {
   color: var(--ink);
 }
 .chip.is-active {
-  background: var(--ink);
-  color: #fff;
-  border-color: var(--ink);
+  background: var(--accent);
+  color: #14100b;
+  border-color: var(--accent);
 }
 
 .masonry {
@@ -611,12 +677,9 @@ img {
    Responsive
    ============================================================ */
 @media (max-width: 900px) {
-  .hero__inner {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-  .hero__gallery {
-    max-width: 460px;
+  .hero__grid {
+    gap: 18px;
+    padding-top: 100px;
   }
   .cards,
   .quotes {
@@ -692,34 +755,28 @@ img {
   }
 }
 
-/* ---------- Telefon: hero slike + galerija kao slajder ---------- */
+/* ---------- Telefon: hero uglovi + galerija kao slajder ---------- */
 @media (max-width: 600px) {
-  /* HERO: čist 2×2 raspored slika, bez preklapanja sa statistikom.
-     'display:contents' spljošti dve unutrašnje kolone u JEDNU mrežu —
-     pouzdano na iOS Safari (izbegava bug sa aspect-ratio u ugnježdenom gridu,
-     koji je pravio da se statistika "popne" preko slika). */
+  /* HERO: tagline gore-levo, motto dole-desno; slika se vidi između. */
   .hero {
-    padding-bottom: 48px;
+    min-height: 88vh;
   }
-  .hero__gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    max-width: 340px;
-    margin: 8px auto 0;
+  .hero__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 88vh;
+    gap: 16px;
+    padding-top: 92px;
+    padding-bottom: 40px;
   }
-  .hero__col {
-    display: contents;
+  .hero__corner {
+    max-width: 100%;
   }
-  .hero__col--down {
-    margin-top: 0;
+  .hero__corner--tl {
+    grid-row: 1;
   }
-  .hero__col img,
-  .hero__col img:nth-child(2) {
-    aspect-ratio: 1 / 1;
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius);
+  .hero__corner--br {
+    grid-row: 3;
   }
 
   /* GALERIJA: vodoravni slajder — jedna slika, swipe + auto svake 3s */
@@ -753,4 +810,98 @@ img {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ============================================================
+   SEO dodaci  —  klik-kartice, stranice usluga, footer linkovi
+   ============================================================ */
+
+/* Emotivni podnaslov ispod H1 na početnoj */
+.hero__tagline {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  margin: 10px 0 0;
+  max-width: 26em;
+}
+
+/* Kartice usluga su sada linkovi — strelica "Saznaj više" */
+.card {
+  display: block;
+  color: inherit;
+}
+.card__more {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+.card:hover .card__more {
+  color: var(--accent);
+}
+
+/* Hero na stranicama usluga (rođendani / portreti / automobili) */
+.service-hero {
+  padding-top: 60px;
+  padding-bottom: 50px;
+  text-align: center;
+}
+.service-hero h1 {
+  margin: 6px auto 0;
+  max-width: 14em;
+}
+.service-hero__lead {
+  max-width: 38em;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.1rem;
+}
+.service-hero .hero__actions,
+.service-hero .socials {
+  justify-content: center;
+}
+.service-hero .hero__actions {
+  margin-top: 26px;
+}
+
+/* Tekstualni opis na stranici usluge */
+.service-body {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.service-body p {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin-bottom: 18px;
+}
+.service-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Premešteni intro tekst u "O nama" */
+.about__lead {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+/* Interni linkovi u footeru */
+.footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 22px;
+  margin: 4px 0;
+}
+.footer__nav a {
+  font-size: 0.9rem;
+  color: #b9b0a3;
+  transition: color 0.15s;
+}
+.footer__nav a:hover {
+  color: #fff;
 }
